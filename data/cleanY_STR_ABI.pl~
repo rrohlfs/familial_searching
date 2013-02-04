@@ -1,0 +1,78 @@
+#!/usr/local/bin/perl
+#this script should take two subgroups from the five groups and put them together in a single dataset
+
+#set constants for filenames 
+@locinames = ("CSF1PO", "FGA", "TH01", "TPOX", "vWA", "D3S1358", "D5S818", "D7S820", "D8S1179", "D13S317", "D16S539", "D18S51", "D21S11");
+@popnames = ("AsianAmerican","AfricanAmerican", "EuropeanAmerican", "Latino", "NativeAmerican");
+#@nsubpops = (11, 6, 9, 8, 7);
+@nalleles = (14, 31, 10, 10, 12, 12, 12, 18, 11, 12, 10, 20, 34);
+$cumdirname = "prunedCumulative";
+
+#set constants for subgroup choosing
+@subgroupPicks = (
+    [0, 2], #AsAm: Chinese, Japanese2
+    [2, 4], #AfAm: Jamaica, California
+    [3, 4], #EuAm: Florida, Virginia
+    [2, 7], #Latino: Florida, Mexico
+    [2, 3], #Native: Apache, Navajo
+    );
+$subgroupnames = "AfA_Jamaica\tAfA_California\tAs_Chinese\tAs_Japanese2\tEuA_Florida\tEuA_Virginia\tL_Florida\tL_Mexico\tN_Michigan\tN_Apache";
+
+#set up data structure to hold picked allele freqs so the indices are [subpop][locus][allele]
+#@AFs = ([ ], [ ], [ ], [ ], [ ]);
+
+#print (0..$#popnames);
+
+#read in allele freqs, saving relevant ones
+for $i (0..$#popnames) {
+    $popname = $popnames[$i];
+    #print "looking at pop $i\n";
+    #print "!!! for this popgroup, looking at indices number ".($subgroupPicks[$i][0]+1)." and ".($subgroupPicks[$i][1]+1)."\n";
+
+    for $j (0..$#locinames) { 
+	$locusname = $locinames[$j];
+
+	$AFfilename = $popname.'/'.$locusname.'.dat';
+	open(AFS, $AFfilename);
+	$headerline = <AFS>;
+	#$allelecount = 0;
+	while ($rawline = <AFS>) {
+	    #$allelecount++;
+	    chomp($rawline);
+	    @alleleAFs = split(/\t/, $rawline);
+	    #print join(':',@alleleAFs),"\n";
+	    #print "length is ",$#alleleAFs,"\n";
+	    #print @alleleAFs;
+	    #print "\n";
+	    #print "@alleleAFs\n";
+
+	    push(@{$AFs[$i*2][$j]}, $alleleAFs[($subgroupPicks[$i][0]+1)]);
+	    push(@{$AFs[$i*2+1][$j]}, $alleleAFs[($subgroupPicks[$i][1]+1)]);
+
+	    #print "hardcoded: ".$alleleAFs[3]." and ".$alleleAFs[5]."\n";
+
+	    #print "for pop $i, locus $j, pushed on AFs ".$alleleAFs[($subgroupPicks[$i][0])+1]." and ".$alleleAFs[($subgroupPicks[$i][1])+1]."\n";
+
+	}
+	#print "counted $allelecount alleles\n";
+
+	close(AFS);
+    }
+}
+
+#write allele freqs to files
+for $j (0..$#locinames) { 
+    $locusname = $locinames[$j];
+    $locusfile = $cumdirname.'/'.$locusname.'.dat';
+    open(OUT, ">$locusfile");
+    
+    print(OUT "$locusname\t$subgroupnames\n");
+    for $k (0..($nalleles[$j]-1)) {
+	print(OUT "-1");
+	for $i (0..(2*$#popnames+1)) {
+	    print(OUT "\t$AFs[$i][$j][$k]");
+	}
+	print(OUT "\n");
+    }
+    close(OUT);
+}

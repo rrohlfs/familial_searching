@@ -1,0 +1,13 @@
+int randValFromDist(double *dist, int n);
+int randValFromDistProp(double *dist, int n);
+void randValsFromDist(double *dist, int n, int *vals, int nvals);
+void modifyAFdist(double *AFs, int nalleles, int *obsAs, int nobsAs, double *newAFs, double theta);
+void thetaRandIndiv(double ***AFs, int nSTRs, int *nalleles, int npop, double theta, int **indiv);
+void thetaRandSecondIndiv(double ***AFs, int nSTRs, int *nalleles, int npop, double theta, int **indiv1, int **indiv2);
+void modifyAFdistProp(double *AFs, int nalleles, int *obsAs, int nobsAs, double *newAFs, double theta);
+void removeIndivFromHF(double *hapFreqs, double *newHapFreqs, int nalleles, int indivallele, int *nindivs, int *newnindivs, int popi, int npops);
+void thetaRandSecondIndivYchr(double *hapFreqs, double *newHapFreqs, int nalleles, double theta, int *indiv1, int *indiv2, int* nindivs, int* modnindivs, int popi, int npops);
+void thetaRandIndivYchr(double *hapFreqs, double *newHapFreqs, int nalleles, int *indiv, int* nindivs, int* modnindivs, int popi, int npops);
+void thetaRandIndivPair(double ***AFs, int nSTRs, int *nalleles, int npop, double theta, int ***indivs, double *ks);
+void thetaRandIndivPairYchr(double *hapFreqs, double *newHapFreqs, int nalleles, double theta, int *indivs, double k0, int* nindivs, int* modnindivs, int popi, int npops);
+void randUnrelIndivPairYchr(double *hapFreqs, double *newHapFreqs, int nalleles, int *indiv1, int *indiv2, int* nindivs, int* modnindivs, int popi, int npops);

@@ -1,1 +1,29 @@
-Oh, I'm sorry to say I haven't had a chance to organize/document these scripts yet.  If you're looking to use them and confused, please email me at rrohlfs@berkeley.edu.  
+Some brief file descriptions follow.  If you're looking to use these scripts and are confused, please email me at rrohlfs@berkeley.edu.  
+
+autYsim.c: 
+given population sample autosomal allele frequencies and Y-haplotype frequencies, simulates pairs of relatives and runs the Myers et al. parent-offspring/sibling identification routine, writing the test statistics to file
+
+autYsimUnrelPopPair.c: 
+given population sample autosomal allele frequencies and Y-haplotype frequencies, simulates pairs of unrelated individuals from each pair of population samples and runs the Myers et al. parent-offspring/sibling identification routine, writing the test statistics to file
+
+autYsimAnalysisDeux.R: 
+given the results of an autYsim.c run, calculates identification rates for different specified relationships and draws plots of these results
+
+autYsimAnalysisDeuxSubSamp.R: 
+given the results of an autYsim.c run with subsampling of Y-haplotype reference samples, calculates identification rates for different specified relationships and draws plots of these results
+
+autYsimUnrelPopPairAnalysis.R: 
+given the results of an autYsimUnrelPopPair.c run, calculates false positive identification rates for under the Myers et al procedures and draws plots of these results
+
+probterms.c and probterms.h: 
+probability functions for autosomal genotypes and Y-haplotypes under various relationship assumptions
+
+simfunctions.c and simfunctions.h: 
+functions to simulate autosomal genotypes and Y-haplotypes under various relationship assumptions
+
+myio.c and myio.h:
+convenient in-house functions to read in/out files/variables
+
+mystat.c and mystat.h:
+convenient in-house functions to do some basic statistical functions
+
